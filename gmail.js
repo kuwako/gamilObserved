@@ -8,8 +8,8 @@ function mailSearch() {
   var pepperNum = 20; // 何CVごとにPepperBotを飛ばすか
   var msgNum = 0;
   
+  // 最新の受信日時のオブジェクト
   var lastMessageDate = threads[0].getLastMessageDate();
-  lastMessageDate = new Date();
   
   // 最新のメール受信日時と現在日時が違った場合は処理終了して弾く。
   if (lastMessageDate.getDate() !== date.getDate()
@@ -25,8 +25,18 @@ function mailSearch() {
   
   Logger.log(msgNum);
   
-  if (msgNum % pepperNum == 0 && msgNum > 1) {
+  if (msgNum < 1) {
+    return false;
+  }
+  
+  // bt_allに投げるやつ
+  if (msgNum % pepperNum == 0) {
     sendTotalCvNum(msgNum);
+  }
+  
+  // kuwako_testに投げる
+  if (msgNum % 5 == 0) {
+    sendPepperBot("kuwako_test", msgNum + "CV!!!");
   }
 }
 
