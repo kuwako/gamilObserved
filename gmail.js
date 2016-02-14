@@ -6,19 +6,24 @@ function mailSearch() {
   
   var threads = GmailApp.search(searchText);
   var pepperNum = 20; // 何CVごとにPepperBotを飛ばすか
-  sheet.clear();
   var msgNum = 0;
   
-  for(var i = 0; i < threads.length; i++) {
-    var messages = threads[i].getMessages();
-    
-    // スレッド内のメッセージごとに処理
-    for(var j = 0; j < messages.length; j++) {
-      msgNum++;
-      
-      // TODO そのうちアプリのCV時にも送るようにする。
-    }
+  var lastMessageDate = threads[0].getLastMessageDate();
+  lastMessageDate = new Date();
+  
+  // 最新のメール受信日時と現在日時が違った場合は処理終了して弾く。
+  if (lastMessageDate.getDate() !== date.getDate()
+    || lastMessageDate.getHours() !== date.getHours()
+    || lastMessageDate.getMinutes() !== date.getMinutes()) {
+      Logger.log("最新メール受信日時と異なっています");
+      return false;
   }
+  
+  for (var i = 0; i < threads.length; i++) {
+    msgNum += threads[i].getMessageCount();
+  }
+  
+  Logger.log(msgNum);
   
   if (msgNum % pepperNum == 0 && msgNum > 1) {
     sendTotalCvNum(msgNum);
