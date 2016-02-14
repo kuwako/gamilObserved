@@ -34,6 +34,10 @@ function mailSearch() {
     sendTotalCvNum(msgNum);
   }
   
+  // TODO 
+  // 本当は上のロジックは正しくない。これだと、1分以内に件数が79 -> 81になった場合などに対応できていない。
+  // しかし、網羅的にやろうとするとforでたくさんGoogleAPIを叩かないといけないので、一旦保留
+  
   // kuwako_testに投げる
   if (msgNum % 5 == 0) {
     sendPepperBot("kuwako_test", msgNum + "CV!!!");
@@ -57,10 +61,10 @@ function sendTotalCvNum(msgNum) {
       pepperMsg += "おなか空いたー(*´ω｀*)";
       break;
     case 5:
-      pepperMsg += "1 0 0 CV \n( ・ˇ∀ˇ・)ｱﾊハ八ﾉヽﾉヽﾉ ＼ / ＼";
+      pepperMsg += "(≧∇≦)b　１ ０ ０ Ｃ Ｖ ！！　(≧∇≦)b";
       break;
     case 6:
-      pepperMsg += "そろそろ眠くない？ (・ー・) ";
+      pepperMsg += "そろそろ眠い時間？ (・ー・) ";
       break;
     case 7:
       pepperMsg += "絶好調！！！ \n(　´,_ゝ｀)ｸｯｸｯｸ･･･(　´∀｀)ﾌﾊﾊﾊﾊ･･･(　 ﾟ∀ﾟ)ﾊｧｰﾊｯﾊｯﾊｯﾊ!!";
