@@ -8,6 +8,10 @@ function mailSearch() {
   var pepperNum = 20; // 何CVごとにPepperBotを飛ばすか
   var msgNum = 0;
   
+  if (threads === undefined) {
+    return false;
+  }
+  
   // 最新の受信日時のオブジェクト
   var lastMessageDate = threads[0].getLastMessageDate();
   
@@ -95,4 +99,32 @@ function sendPepperBot(channel, text) {
   });
   
   Logger.log(res);
+}
+
+function tanakasanBot() {
+  var date = new Date();
+  
+  // 23:59以外なら非実行
+  if (date.getHours() != 23 || date.getMinutes() != 59) {
+    return false;
+  }
+  
+  var searchText = "label:bt-応募がありました -{テスト} -{てすと} after:";
+  var today = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();    // 2016/2/14 
+  searchText += today;  // Gmail上の検索文言指定
+  
+  var threads = GmailApp.search(searchText);
+  var msgNum = 0;
+  
+  for (var i = 0; i < threads.length; i++) {
+    msgNum += threads[i].getMessageCount();
+  }
+  
+  var msg = "今日のCV数は..." + msgNum + "CVでした!!!";
+  
+  if (msgNum < 140) {
+    msg += "\n@mitsuru.tanaka \n田中さぁぁあぁぁぁぁん \nｱｰﾒﾝ( -ω-)m †┏┛教会┗┓†";
+  }
+  
+  sendPepperBot("bt_all", msg);
 }
