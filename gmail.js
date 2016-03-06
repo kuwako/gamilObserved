@@ -1,14 +1,14 @@
 function mailSearch() {
   var searchText = "label:bt-応募がありました -{テスト} -{てすと} after:";
   var date = new Date();
-  var today = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();    // 2016/2/14 
+  var today = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();    // ex) 2016/2/14 
   searchText += today;  // Gmail上の検索文言指定
   
   var threads = GmailApp.search(searchText);
   var pepperNum = 20; // 何CVごとにPepperBotを飛ばすか
   var msgNum = 0;
   
-  if (threads === undefined) {
+  if (!threads[0]) {
     return false;
   }
   
@@ -26,8 +26,6 @@ function mailSearch() {
   for (var i = 0; i < threads.length; i++) {
     msgNum += threads[i].getMessageCount();
   }
-  
-  Logger.log(msgNum);
   
   if (msgNum < 1) {
     return false;
@@ -127,4 +125,33 @@ function tanakasanBot() {
   }
   
   sendPepperBot("bt_all", msg);
+}
+
+function googleAnalyticsAlert() {
+  var accounts = Analytics.Management.Accounts.list(); 
+ 
+  if (accounts.getItems()) {
+    //GoogleAnalyticsで複数のブログの計測をしている方は[1]の数字を変更する
+    var firstAccountId = accounts.getItems()[0].getId();
+
+    var webProperties = Analytics.Management.Webproperties.list(firstAccountId);
+    if (webProperties.getItems()) {
+
+      var firstWebPropertyId = webProperties.getItems()[0].getId();
+      var profiles = Analytics.Management.Profiles.list(firstAccountId, firstWebPropertyId);
+
+      if (profiles.getItems()) {
+        var firstProfile = profiles.getItems()[0];
+        Logger.log(firstProfile);
+        return firstProfile;
+
+      } else {
+        throw new Error('No views (profiles) found.');
+      }
+    } else {
+      throw new Error('No webproperties found.');
+    }
+  } else {
+    throw new Error('No accounts found.');
+  }
 }
