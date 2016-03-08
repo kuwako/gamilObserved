@@ -31,7 +31,7 @@ function mailSearch() {
     return false;
   }
   
-  // bt_allに投げるやつ
+  // bt_pepper_teamに投げるやつ
   if (msgNum % pepperNum == 0) {
     sendTotalCvNum(msgNum);
   }
@@ -75,7 +75,7 @@ function sendTotalCvNum(msgNum) {
       pepperMsg += "燃えろぉぉぉおおぉぉぉおぉぉおぉぉぉお─=≡Σ((( つ•̀ω•́)つ";
   }
   
-  sendPepperBot("bt_all", pepperMsg);
+  sendPepperBot("bt_team_pepper", pepperMsg);
 }
 
 function sendPepperBot(channel, text) {
@@ -124,7 +124,7 @@ function tanakasanBot() {
     msg += "\n@mitsuru.tanaka \n田中さぁぁあぁぁぁぁん \nｱｰﾒﾝ( -ω-)m †┏┛教会┗┓†";
   }
   
-  sendPepperBot("bt_all", msg);
+  sendPepperBot("bt_team_pepper", msg);
 }
 
 function googleAnalyticsAlert() {
