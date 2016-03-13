@@ -14,6 +14,9 @@ function mailSearch() {
   
   // 最新の受信日時のオブジェクト
   var lastMessageDate = threads[0].getLastMessageDate();
+ 
+  // 1分前をセット
+  date.setMinutes(date.getMinutes() - 1);
   
   // 最新のメール受信日時と現在日時が違った場合は処理終了して弾く。
   if (lastMessageDate.getDate() !== date.getDate()
@@ -125,33 +128,4 @@ function tanakasanBot() {
   }
   
   sendPepperBot("bt_team_pepper", msg);
-}
-
-function googleAnalyticsAlert() {
-  var accounts = Analytics.Management.Accounts.list(); 
- 
-  if (accounts.getItems()) {
-    //GoogleAnalyticsで複数のブログの計測をしている方は[1]の数字を変更する
-    var firstAccountId = accounts.getItems()[0].getId();
-
-    var webProperties = Analytics.Management.Webproperties.list(firstAccountId);
-    if (webProperties.getItems()) {
-
-      var firstWebPropertyId = webProperties.getItems()[0].getId();
-      var profiles = Analytics.Management.Profiles.list(firstAccountId, firstWebPropertyId);
-
-      if (profiles.getItems()) {
-        var firstProfile = profiles.getItems()[0];
-        Logger.log(firstProfile);
-        return firstProfile;
-
-      } else {
-        throw new Error('No views (profiles) found.');
-      }
-    } else {
-      throw new Error('No webproperties found.');
-    }
-  } else {
-    throw new Error('No accounts found.');
-  }
 }
